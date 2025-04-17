@@ -200,3 +200,45 @@ def integrate_kdf_with_encryption():
 if __name__ == "__main__":
     kdf_demo()
     integrate_kdf_with_encryption()
+
+"""
+密钥推导函数类型说明
+1. PBKDF2 (Password-Based Key Derivation Function 2)
+用途: 从密码派生密钥
+特点:
+使用盐值防止彩虹表攻击
+可配置迭代次数增加计算成本
+使用HMAC作为伪随机函数
+参数选择:
+迭代次数: 至少100,000次(SHA-256)
+盐长度: 至少64位(8字节)，推荐128位(16字节)
+哈希算法: SHA-256或更强
+2. HKDF (HMAC-based Extract-and-Expand Key Derivation Function)
+用途: 从已有密钥材料(如DH交换结果)派生密钥
+特点:
+两阶段过程: 提取(可选)和扩展
+可使用上下文信息(info)派生不同密钥
+设计用于已有高熵输入
+典型用途:
+从Diffie-Hellman共享密钥派生加密密钥
+密钥分层派生
+3. scrypt
+用途: 从密码派生密钥
+特点:
+内存密集型设计，抵抗ASIC/GPU攻击
+提供CPU成本(n)、内存成本(r)和并行化参数(p)
+参数选择:
+n: 2^14-2^20(根据硬件调整)
+r: 8-16
+p: 1-4
+4. Argon2
+用途: 密码哈希和密钥派生
+特点:
+2015年密码哈希竞赛获胜者
+提供抗GPU/ASIC设计
+三种变体: Argon2d, Argon2i, Argon2id(推荐)
+参数选择:
+时间成本: 至少3次迭代
+内存成本: 至少64MB
+并行度: 根据CPU核心数
+"""
